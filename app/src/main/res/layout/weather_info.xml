@@ -68,7 +68,7 @@
         android:orientation="vertical"
         android:layout_below="@+id/title">
 
-        <!--今日天气和广告-->
+        <!--今日天气和日期-->
         <RelativeLayout
             android:id="@+id/weather_today"
             android:layout_width="match_parent"
@@ -82,22 +82,22 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="15.0dip"
                 android:lines="1"
-                android:text="今日13:40发布"
+                android:text="13:40发布"
                 android:textColor="@android:color/white"
-                android:textSize="15.0sp"/>
+                android:textSize="16.0sp"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_below="@id/time">
+                android:orientation="vertical"
+                android:layout_below="@id/time"
+                android:layout_marginTop="10dip">
                 <TextView
                     android:id="@+id/city"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="15.0dip"
-                    android:layout_gravity="center"
                     android:lines="1"
                     android:text="北京"
                     android:textColor="@android:color/white"
@@ -106,24 +106,40 @@
                     android:id="@+id/temperature"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/city"
-                    android:layout_marginLeft="10.0dip"
+                    android:layout_marginLeft="15.0dip"
                     android:lines="1"
-                    android:text="21°"
+                    android:text="31°"
                     android:textColor="@android:color/white"
-                    android:textSize="50.0sp"/>
+                    android:textSize="40.0sp"/>
             </LinearLayout>
 
+            <ImageView
+                android:id="@+id/weather_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/week_today"
+                android:src="@drawable/biz_plugin_weather_qing">
+            </ImageView>
+            <TextView
+                android:id="@+id/climate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/week_today"
+                android:layout_marginTop="10dip"
+                android:layout_toRightOf="@id/weather_image"
+                android:text="多云"
+                android:textColor="@android:color/white"
+                android:textSize="15.0sp" />
 
             <TextView
-                android:id="@+id/advise"
+                android:id="@+id/week_today"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginRight="20.0dip"
-                android:layout_marginTop="10.0dip"
-                android:text="这里是广告"
+                android:layout_marginRight="10.0dip"
+                android:layout_marginTop="20.0dip"
+                android:text="16日周日"
                 android:textColor="@android:color/white"
                 android:textSize="15.0sp"
                 />
@@ -133,7 +149,7 @@
         <!--其他信息-->
         <RelativeLayout
             android:layout_width="wrap_content"
-            android:layout_height="200dip"
+            android:layout_height="match_parent"
             android:paddingTop="10.0dip">
 
             <LinearLayout
@@ -158,7 +174,7 @@
                         android:lines="1"
                         android:text="PM2.5"
                         android:textColor="@android:color/white"
-                        android:textSize="13.0sp"/>
+                        android:textSize="20.0sp"/>
 
                     <TextView
                         android:id="@+id/pm2_5_data"
@@ -168,7 +184,7 @@
                         android:lines="1"
                         android:text="220"
                         android:textColor="@android:color/white"
-                        android:textSize="20.0sp"/>
+                        android:textSize="25.0sp"/>
 
                 </LinearLayout>
 
@@ -183,12 +199,12 @@
                     android:id="@+id/pm2_5_quality"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="40.0dip"
+                    android:layout_marginLeft="20.0dip"
+                    android:layout_gravity="center_vertical"
                     android:lines="1"
-                    android:text="轻度污染"
+                    android:text="良"
                     android:textColor="@android:color/white"
-                    android:textSize="20.0sp"
-                    />
+                    android:textSize="30.0sp" />
 
             </LinearLayout>
 
@@ -196,6 +212,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
+                android:layout_marginBottom="20dip"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -206,6 +223,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/fengxiang"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
@@ -214,12 +232,13 @@
                         android:textSize="15.0sp"/>
 
                     <TextView
+                        android:id="@+id/fengli"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="2级"
                         android:textColor="@android:color/white"
-                        android:textSize="30.0sp"/>
+                        android:textSize="25.0sp"/>
 
                 </LinearLayout>
 
@@ -241,17 +260,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="相对湿度"
+                        android:text="湿度"
                         android:textColor="@android:color/white"
                         android:textSize="15.0sp"/>
 
                     <TextView
+                        android:id="@+id/humidity_data"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:text="12%"
                         android:textColor="@android:color/white"
-                        android:textSize="30.0sp"/>
+                        android:textSize="25.0sp"/>
 
                 </LinearLayout>
 
@@ -263,6 +283,7 @@
                     android:background="@android:color/white"/>
 
                 <LinearLayout
+                    android:id="@+id/date"
                     android:layout_width="0dip"
                     android:layout_weight="1"
                     android:layout_height="wrap_content"
@@ -272,17 +293,18 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="体感温度"
+                        android:text="温度"
                         android:textColor="@android:color/white"
                         android:textSize="15.0sp"/>
 
                     <TextView
+                        android:id="@+id/high_low_temp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:text="23°"
+                        android:layout_gravity="center"
+                        android:text="23°C-36°C"
                         android:textColor="@android:color/white"
-                        android:textSize="30.0sp"/>
+                        android:textSize="25.0sp"/>
 
                 </LinearLayout>
 
