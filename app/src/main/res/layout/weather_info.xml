@@ -32,7 +32,7 @@
             android:layout_toRightOf="@id/city_seperator"
             android:gravity="center_vertical"
             android:paddingLeft="5dip"
-            android:text="北京天气"
+            android:text="N/A天气"
             android:textColor="#ffffffff"
             android:textSize="22.0sp"/>
 
@@ -82,7 +82,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="15.0dip"
                 android:lines="1"
-                android:text="13:40发布"
+                android:text="N/A发布"
                 android:textColor="@android:color/white"
                 android:textSize="16.0sp"/>
 
@@ -99,7 +99,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_marginLeft="15.0dip"
                     android:lines="1"
-                    android:text="北京"
+                    android:text="N/A"
                     android:textColor="@android:color/white"
                     android:textSize="30.0sp"/>
                 <TextView
@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15.0dip"
                     android:lines="1"
-                    android:text="31°"
+                    android:text="N/A"
                     android:textColor="@android:color/white"
                     android:textSize="40.0sp"/>
             </LinearLayout>
@@ -127,7 +127,7 @@
                 android:layout_below="@+id/week_today"
                 android:layout_marginTop="10dip"
                 android:layout_toRightOf="@id/weather_image"
-                android:text="多云"
+                android:text="N/A"
                 android:textColor="@android:color/white"
                 android:textSize="15.0sp" />
 
@@ -139,7 +139,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginRight="10.0dip"
                 android:layout_marginTop="20.0dip"
-                android:text="16日周日"
+                android:text="N/A"
                 android:textColor="@android:color/white"
                 android:textSize="15.0sp"
                 />
@@ -182,7 +182,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20.0dip"
                         android:lines="1"
-                        android:text="220"
+                        android:text="N/A"
                         android:textColor="@android:color/white"
                         android:textSize="25.0sp"/>
 
@@ -202,7 +202,7 @@
                     android:layout_marginLeft="20.0dip"
                     android:layout_gravity="center_vertical"
                     android:lines="1"
-                    android:text="良"
+                    android:text="N/A"
                     android:textColor="@android:color/white"
                     android:textSize="30.0sp" />
 
@@ -227,7 +227,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="西风"
+                        android:text="N/A"
                         android:textColor="@android:color/white"
                         android:textSize="15.0sp"/>
 
@@ -236,9 +236,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="2级"
+                        android:text="N/A"
                         android:textColor="@android:color/white"
-                        android:textSize="25.0sp"/>
+                        android:textSize="20.0sp"/>
 
                 </LinearLayout>
 
@@ -269,9 +269,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:text="12%"
+                        android:text="N/A"
                         android:textColor="@android:color/white"
-                        android:textSize="25.0sp"/>
+                        android:textSize="20.0sp"/>
 
                 </LinearLayout>
 
@@ -302,9 +302,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:text="23°C-36°C"
+                        android:text="N/A"
                         android:textColor="@android:color/white"
-                        android:textSize="25.0sp"/>
+                        android:textSize="20.0sp"/>
 
                 </LinearLayout>
 
