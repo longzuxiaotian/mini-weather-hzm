@@ -2,6 +2,7 @@ package cn.edu.pku.ss.hzm.miniweather;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,7 +25,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import cn.edu.pku.ss.hzm.app.MyApplication;
 import cn.edu.pku.ss.hzm.bean.TodayWeather;
+import cn.edu.pku.ss.hzm.util.NetUtil;
 
 /**
  * Created by i on 2017/10/1.
@@ -32,12 +35,18 @@ import cn.edu.pku.ss.hzm.bean.TodayWeather;
 
 public class MainActivity extends Activity implements View.OnClickListener{
 
+    public static final String MAIN_CITY_NAME = "main_city_name";
+    public static final String MAIN_CITY_ID= "main_city_id";
     private static final int UPDATE_TODAY_WEATHER = 1;
+    private static final int SELECT_CITY = 2;
 
-    private ImageView upDateBtn,weatherImg, pmImg;
+    private ImageView upDateBtn,selectCity,weatherImg, pmImg;
     private TextView cityTv, timeTv, humidityTv, weekTv, pmDataTv,
             pmQualityTv,temperatureTv, climateTv, windTv, windpowerTv,
             city_name_Tv, high_low_tempTv;
+
+    private String mainCityID;
+    private String mainCityName;
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -56,23 +65,39 @@ public class MainActivity extends Activity implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weather_info);
 
-        upDateBtn = (ImageView) findViewById(R.id.title_update_btn);
-        upDateBtn.setOnClickListener(this);
+        initView();
 
         if(NetUtil.getNetworkState(this) == NetUtil.NETWORN_NONE) {
             Toast.makeText(MainActivity.this,"网络断开，请检查网络状态!",Toast.LENGTH_SHORT).show();
+        }else {
+            SharedPreferences sharedPre = getSharedPreferences("cityinfo",MODE_PRIVATE);
+            mainCityID = sharedPre.getString("main_city_code","101010100");
+            mainCityName = sharedPre.getString("main_city_name","北京");
+            queryWeatherCode(mainCityID);
         }
-        initView();
+
+        upDateBtn = (ImageView) findViewById(R.id.title_update_btn);
+        upDateBtn.setOnClickListener(this);
+
+        selectCity = (ImageView) findViewById(R.id.title_city_manager);
+        selectCity.setOnClickListener(this);
+
     }
 
     @Override
     public void onClick(View view) {
+        if(view.getId() == R.id.title_city_manager) {
+            Intent intent = new Intent(MainActivity.this,SelectCityActivity.class);
+            intent.putExtra(MAIN_CITY_NAME,mainCityName);
+            startActivityForResult(intent,SELECT_CITY);
+        }
+
         if(view.getId() == R.id.title_update_btn) {
-            SharedPreferences sharedPre = getSharedPreferences("config",MODE_PRIVATE);
-            String cityCode = sharedPre.getString("main_city_code","101010100");
+//            SharedPreferences sharedPre = getSharedPreferences("config",MODE_PRIVATE);
+//            String cityCode = sharedPre.getString("main_city_code","101010100");
 
             if(NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {
-                queryWeatherCode(cityCode);
+                queryWeatherCode(mainCityID);
             }else {
                 Toast.makeText(MainActivity.this,"网页请求失败，请检查网络状况!",Toast.LENGTH_SHORT).show();
             }
@@ -310,4 +335,16 @@ public class MainActivity extends Activity implements View.OnClickListener{
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case SELECT_CITY:
+                if(resultCode == RESULT_OK) {
+                    mainCityID = data.getStringExtra(SelectCityActivity.RETURN_MAIN_CITY_ID);
+                    queryWeatherCode(mainCityID);
+                }
+                break;
+            default:break;
+        }
+    }
 }
