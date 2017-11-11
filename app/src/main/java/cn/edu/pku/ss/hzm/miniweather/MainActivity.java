@@ -25,7 +25,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import cn.edu.pku.ss.hzm.app.MyApplication;
 import cn.edu.pku.ss.hzm.bean.TodayWeather;
 import cn.edu.pku.ss.hzm.util.NetUtil;
 
@@ -35,18 +34,15 @@ import cn.edu.pku.ss.hzm.util.NetUtil;
 
 public class MainActivity extends Activity implements View.OnClickListener{
 
-    public static final String MAIN_CITY_NAME = "main_city_name";
-    public static final String MAIN_CITY_ID= "main_city_id";
     private static final int UPDATE_TODAY_WEATHER = 1;
-    private static final int SELECT_CITY = 2;
 
     private ImageView upDateBtn,selectCity,weatherImg, pmImg;
     private TextView cityTv, timeTv, humidityTv, weekTv, pmDataTv,
             pmQualityTv,temperatureTv, climateTv, windTv, windpowerTv,
             city_name_Tv, high_low_tempTv;
 
-    private String mainCityID;
-    private String mainCityName;
+    private String mainCityID = "";
+    private String mainCityName = "";
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -69,6 +65,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
 
         if(NetUtil.getNetworkState(this) == NetUtil.NETWORN_NONE) {
             Toast.makeText(MainActivity.this,"网络断开，请检查网络状态!",Toast.LENGTH_SHORT).show();
+            getOldInfo();
         }else {
             SharedPreferences sharedPre = getSharedPreferences("cityinfo",MODE_PRIVATE);
             mainCityID = sharedPre.getString("main_city_code","101010100");
@@ -85,25 +82,33 @@ public class MainActivity extends Activity implements View.OnClickListener{
     }
 
     @Override
+    public void onBackPressed() {
+        outputInfo();
+        finish();
+    }
+
+    @Override
     public void onClick(View view) {
         if(view.getId() == R.id.title_city_manager) {
             Intent intent = new Intent(MainActivity.this,SelectCityActivity.class);
-            intent.putExtra(MAIN_CITY_NAME,mainCityName);
-            startActivityForResult(intent,SELECT_CITY);
+            intent.putExtra("cityname",mainCityName);
+            startActivityForResult(intent,2);
         }
 
         if(view.getId() == R.id.title_update_btn) {
-//            SharedPreferences sharedPre = getSharedPreferences("config",MODE_PRIVATE);
-//            String cityCode = sharedPre.getString("main_city_code","101010100");
 
             if(NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {
                 queryWeatherCode(mainCityID);
             }else {
-                Toast.makeText(MainActivity.this,"网页请求失败，请检查网络状况!",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"更新失败，请检查网络状况!",Toast.LENGTH_SHORT).show();
             }
         }
     }
 
+    /**
+     *通过http协议获取数据
+     * @param cityCode
+     */
     public void queryWeatherCode(final String cityCode) {
         new Thread(new Runnable() {
             final String address = "http://wthrcdn.etouch.cn/WeatherApi?citykey=" + cityCode;
@@ -142,6 +147,11 @@ public class MainActivity extends Activity implements View.OnClickListener{
         }).start();
     }
 
+    /**
+     * 解析XML数据
+     * @param response
+     * @return
+     */
     private TodayWeather parseXML(final String response) {
         TodayWeather todayWeather = null;
         int fengxiangCount=0;
@@ -225,7 +235,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
         return todayWeather;
     }
 
-    void initView(){
+    void initView() {
         city_name_Tv = (TextView) findViewById(R.id.title_city_name);
         cityTv = (TextView) findViewById(R.id.city);
         timeTv = (TextView) findViewById(R.id.time);
@@ -241,28 +251,62 @@ public class MainActivity extends Activity implements View.OnClickListener{
         windpowerTv = (TextView) findViewById(R.id.fengli);
         weatherImg = (ImageView) findViewById(R.id.weather_image);
         pmImg = (ImageView) findViewById(R.id.pm2_5_img);
-        city_name_Tv.setText("N/A");
-        cityTv.setText("N/A");
-        timeTv.setText("N/A");
-        humidityTv.setText("N/A");
-        pmDataTv.setText("N/A");
-        pmQualityTv.setText("N/A");
-        weekTv.setText("N/A");
-        windpowerTv.setText("N/A");
-        temperatureTv.setText("N/A");
-        high_low_tempTv.setText("N/A");
-        climateTv.setText("N/A");
-        windTv.setText("N/A");
+    }
+
+    /**
+     * 启动应用时从sharedpreferences中读取数据
+     */
+    void getOldInfo(){
+        SharedPreferences sharedPre = getSharedPreferences("cityinfo",MODE_PRIVATE);
+        city_name_Tv.setText(sharedPre.getString("main_city_name","N/A")+"天气");
+        cityTv.setText(sharedPre.getString("main_city_name","N/A"));
+        timeTv.setText(sharedPre.getString("time","N/A"));
+        humidityTv.setText(sharedPre.getString("humidity","N/A"));
+        pmDataTv.setText(sharedPre.getString("pmData","N/A"));
+        pmQualityTv.setText(sharedPre.getString("pmQuality","N/A"));
+        weekTv.setText(sharedPre.getString("week","N/A"));
+        windpowerTv.setText(sharedPre.getString("windpower","N/A"));
+        temperatureTv.setText(sharedPre.getString("temperature","N/A"));
+        high_low_tempTv.setText(sharedPre.getString("high_low_temp","N/A"));
+        climateTv.setText(sharedPre.getString("climate","N/A"));
+        windTv.setText(sharedPre.getString("wind","N/A"));
         weatherImg.setImageResource(R.drawable.biz_plugin_weather_wu);
         pmImg.setImageResource(R.drawable.biz_plugin_weather_0_50);
     }
 
+    /**
+     * 退出时将当前数据存入sharedpreferences中
+     */
+    void outputInfo(){
+        SharedPreferences.Editor editor = getSharedPreferences("cityinfo",MODE_PRIVATE).edit();
+        editor.putString("main_city_name",cityTv.getText().toString());
+        editor.putString("main_city_code",mainCityID);
+        editor.putString("time",timeTv.getText().toString());
+        editor.putString("humidity",humidityTv.getText().toString());
+        editor.putString("pmData",pmDataTv.getText().toString());
+        editor.putString("pmQuality",pmQualityTv.getText().toString());
+        editor.putString("week",weekTv.getText().toString());
+        editor.putString("windpower",windpowerTv.getText().toString());
+        editor.putString("temperature",temperatureTv.getText().toString());
+        editor.putString("high_low_temp",high_low_tempTv.getText().toString());
+        editor.putString("climate",climateTv.getText().toString());
+        editor.putString("wind",windTv.getText().toString());
+        editor.apply();
+//        weatherImg.setImageResource(R.drawable.biz_plugin_weather_wu);
+//        pmImg.setImageResource(R.drawable.biz_plugin_weather_0_50);
+    }
+
+    /**
+     * 更新数据
+     * @param todayWeather
+     */
     void updateTodayWeather(TodayWeather todayWeather){
         city_name_Tv.setText(todayWeather.getCity()+"天气");
         cityTv.setText(todayWeather.getCity());
         timeTv.setText(todayWeather.getUpdatetime()+ "发布");
         humidityTv.setText(todayWeather.getShidu());
-        pmDataTv.setText(todayWeather.getPm25());
+        if(todayWeather.getPm25() == null ) pmDataTv.setText("0");
+        else pmDataTv.setText(todayWeather.getPm25());
         pmQualityTv.setText(todayWeather.getQuality());
         weekTv.setText(todayWeather.getDate());
         temperatureTv.setText(todayWeather.getWendu()+"°C");
@@ -276,7 +320,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
     }
 
     void updateImage(TodayWeather todayWeather) {
-        int pm_25 = Integer.parseInt(todayWeather.getPm25());
+        int pm_25;
+        if(todayWeather.getPm25() == null ) pm_25 = 0;
+        else pm_25 = Integer.parseInt(todayWeather.getPm25());
         String climate = todayWeather.getType();
         if (0<=pm_25 && pm_25<=50) {
             pmImg.setImageResource(R.drawable.biz_plugin_weather_0_50);
@@ -335,16 +381,27 @@ public class MainActivity extends Activity implements View.OnClickListener{
         }
     }
 
+    /**
+     * 退出选择城市页面时的回调函数，得到用户选择的城市的信息
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
-            case SELECT_CITY:
-                if(resultCode == RESULT_OK) {
-                    mainCityID = data.getStringExtra(SelectCityActivity.RETURN_MAIN_CITY_ID);
-                    queryWeatherCode(mainCityID);
+            case 2:
+                if(resultCode == RESULT_OK){
+                    if(NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {
+                        mainCityID = data.getStringExtra("cityID");
+                        queryWeatherCode(mainCityID);
+                    }else {
+                        Toast.makeText(MainActivity.this,"更新失败，请检查网络状况!",Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
-            default:break;
+            default:
+                break;
         }
     }
 }

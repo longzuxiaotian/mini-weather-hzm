@@ -83,15 +83,12 @@ public class MyApplication extends Application {
 
     private boolean prepareCityList() {
         mCityList = mCityDB.getAllCity();
-//        for (City city : mCityList) {
-//            String cityName = city.getCity();
-//            String cityCode = city.getNumber();
-//        }
         return true;
     }
 
     public List<City> getCityList() {
         return mCityList;
     }
+
 
 }
