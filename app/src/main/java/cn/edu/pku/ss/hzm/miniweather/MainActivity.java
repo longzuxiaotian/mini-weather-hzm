@@ -2,6 +2,7 @@ package cn.edu.pku.ss.hzm.miniweather;
 
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -71,6 +72,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
             mainCityID = sharedPre.getString("main_city_code","101010100");
             mainCityName = sharedPre.getString("main_city_name","北京");
             queryWeatherCode(mainCityID);
+
         }
 
         upDateBtn = (ImageView) findViewById(R.id.title_update_btn);
@@ -98,7 +100,14 @@ public class MainActivity extends Activity implements View.OnClickListener{
         if(view.getId() == R.id.title_update_btn) {
 
             if(NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {
+                ProgressDialog progressDialog = new ProgressDialog(MainActivity.this);
+                progressDialog.setTitle("更新中");
+                progressDialog.setMessage("Loading...");
+                progressDialog.setCancelable(false);
+                progressDialog.show();
                 queryWeatherCode(mainCityID);
+                progressDialog.dismiss();
+                Toast.makeText(MainActivity.this,"更新成功！",Toast.LENGTH_SHORT).show();
             }else {
                 Toast.makeText(MainActivity.this,"更新失败，请检查网络状况!",Toast.LENGTH_SHORT).show();
             }
@@ -316,7 +325,6 @@ public class MainActivity extends Activity implements View.OnClickListener{
         windpowerTv.setText(todayWeather.getFengli());
         updateImage(todayWeather);
 
-        Toast.makeText(MainActivity.this,"更新成功！",Toast.LENGTH_SHORT).show();
     }
 
     void updateImage(TodayWeather todayWeather) {
@@ -395,6 +403,7 @@ public class MainActivity extends Activity implements View.OnClickListener{
                     if(NetUtil.getNetworkState(this) != NetUtil.NETWORN_NONE) {
                         mainCityID = data.getStringExtra("cityID");
                         queryWeatherCode(mainCityID);
+                        Toast.makeText(MainActivity.this,"更新成功！",Toast.LENGTH_SHORT).show();
                     }else {
                         Toast.makeText(MainActivity.this,"更新失败，请检查网络状况!",Toast.LENGTH_SHORT).show();
                     }
