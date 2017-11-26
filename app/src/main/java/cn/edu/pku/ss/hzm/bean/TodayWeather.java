@@ -1,5 +1,7 @@
 package cn.edu.pku.ss.hzm.bean;
 
+import java.util.ArrayList;
+
 /**
  * Created by i on 2017/10/15.
  */
@@ -8,16 +10,16 @@ public class TodayWeather {
     private String city;
     private String updatetime;
     private String wendu;
-    private String hl_wendu;
     private String shidu;
     private String pm25;
     private String quality;
-    private String fengxiang;
-    private String fengli;
-    private String date;
-    private String high;
-    private String low;
-    private String type;
+    private ArrayList<String> fengxiang = new ArrayList<String>();
+    private ArrayList<String> fengli = new ArrayList<String>();
+    private ArrayList<String> date = new ArrayList<String>();
+    private ArrayList<String> high = new ArrayList<String>();
+    private ArrayList<String> low = new ArrayList<String>();
+    private ArrayList<String> type = new ArrayList<String>();
+    ;
 
     public String getCity() {
         return city;
@@ -67,59 +69,27 @@ public class TodayWeather {
         this.pm25 = pm25;
     }
 
-    public String getFengxiang() {
-        return fengxiang;
-    }
-
-    public void setFengxiang(String fengxiang) {
-        this.fengxiang = fengxiang;
-    }
-
-    public String getFengli() {
-        return fengli;
-    }
-
-    public void setFengli(String fengli) {
-        this.fengli = fengli;
-    }
-
-    public String getDate() {
+    public ArrayList<String> getDate() {
         return date;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public ArrayList<String> getFengli() {
+        return fengli;
     }
 
-    public String getHigh() {
+    public ArrayList<String> getFengxiang() {
+        return fengxiang;
+    }
+
+    public ArrayList<String> getHigh() {
         return high;
     }
 
-    public void setHigh(String high) {
-        this.high = high;
-    }
-
-    public String getLow() {
+    public ArrayList<String> getLow() {
         return low;
     }
 
-    public void setLow(String low) {
-        this.low = low;
-    }
-
-    public String getType() {
+    public ArrayList<String> getType() {
         return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getHl_wendu() {
-        return hl_wendu;
-    }
-
-    public void setHl_wendu(String hl_wendu) {
-        this.hl_wendu = hl_wendu;
     }
 }

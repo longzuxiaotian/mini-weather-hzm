@@ -148,11 +148,13 @@
 
         <!--其他信息-->
         <RelativeLayout
+            android:id="@+id/other_info"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:paddingTop="10.0dip">
 
             <LinearLayout
+                android:id="@+id/pm_temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -211,8 +213,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="20dip"
+                android:layout_below="@+id/pm_temp"
+                android:layout_marginTop="50dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -311,6 +313,15 @@
             </LinearLayout>
 
         </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/other_weathers"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="40dp"
+            android:layout_marginBottom="22dp">
+
+        </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
 
