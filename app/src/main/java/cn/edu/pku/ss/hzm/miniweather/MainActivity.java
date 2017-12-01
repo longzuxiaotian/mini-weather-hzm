@@ -56,6 +56,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private WeatherAdapter mWeatherAdapter;
     private RecyclerView recyclerView;
     private ArrayList<OtherWeather> mOtherWeather;
+    private LinearLayoutManager layoutManager;
 
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
@@ -272,7 +273,8 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         recyclerView = (RecyclerView) findViewById(R.id.other_weathers);
         recyclerView.setHasFixedSize(true);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(this);
+        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
         recyclerView.setLayoutManager(layoutManager);
         mOtherWeather = new ArrayList<OtherWeather>();
         for (int i = 0; i < 5; i++) {
