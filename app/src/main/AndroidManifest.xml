@@ -15,11 +15,17 @@
         <activity android:name=".TourActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
-        <activity android:name=".SelectCityActivity"></activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".SelectCityActivity" />
+
+        <service
+            android:name="cn.edu.pku.ss.hzm.service.AutoUpdateService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>
